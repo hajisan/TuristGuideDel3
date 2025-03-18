@@ -1,6 +1,7 @@
 package com.example.turistguidedel3.Service;
 
 
+import com.example.turistguidedel3.Model.Attraction;
 import com.example.turistguidedel3.Model.Tag;
 import com.example.turistguidedel3.Repository.TouristRepository;
 import org.springframework.stereotype.Service;
@@ -15,39 +16,38 @@ public class TouristService {
         this.touristRepository = touristRepository;
     } // Konstruktør til at initialisere TouristRepository-objektet
 
-    public List<TouristAttraction> getAllTouristAttractions() {
-        return touristRepository.getAllTouristAttractions();
+    public List<Attraction> getAllTouristAttractions() {
+        return touristRepository.getAllAttractions();
     } // Henter alle turistattraktioner fra TouristRepository
 
 
-    public TouristAttraction findTouristAttractionByName(String name) {
-        TouristAttraction touristAttraction = touristRepository.findTouristAttractionByName(name);
-        return touristAttraction;
+    public Attraction findTouristAttractionByName(String name) {
+        return touristRepository.getAttractionByName(name);
     } // Henter en attraktion baseret på navnet fra TouristRepository
 
-    public void addAttraction(TouristAttraction attraction) {
+    public void addAttraction(Attraction attraction) {
         touristRepository.addAttraction(attraction);
     }
     // Tilføjer en ny attraktion til TouristRepository
 
-    public void updateTouristAttraction(String name, TouristAttraction updateTouristAttraction) {
-        TouristAttraction updated = touristRepository.updateTouristAttraction(name, updateTouristAttraction);
-        if (updated == null) {
-            throw new IllegalArgumentException("Attraktionen med navnet '" + name + "' blev ikke fundet.");
+    public void updateTouristAttraction(Attraction updateTouristAttraction) {
+        int updated = touristRepository.updateAttraction(updateTouristAttraction);
+        if (updated == 0) {
+            throw new IllegalArgumentException("Attraktionen med ID '" + updateTouristAttraction.getId() + "' blev ikke fundet.");
         } // Opdaterer en eksisterende attraktion i TouristRepository
     }
 
-    public TouristAttraction deleteTouristAttraction(String name) {
-        return touristRepository.deleteTouristAttraction(name);
+    public Attraction deleteTouristAttraction(int id) {
+        return touristRepository.deleteAttraction(id);
     } // Sletter en attraktion fra TouristRepository baseret på navnet
 
     public List<Tag> getTags(String name) {
-        return touristRepository.getTags(name);
+        return touristRepository.getAllTags(name);
          // Henter tags for en specifik attraktion baseret på navnet
     }
 
     public List<String> getCities() {
-        return touristRepository.allCities();
+        return touristRepository.getAllCities();
     }
     // Henter en liste over alle byer fra TouristRepository
 

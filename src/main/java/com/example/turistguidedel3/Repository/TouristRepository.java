@@ -37,6 +37,12 @@ public class TouristRepository {
         return jdbcTemplate.query(sql, new TagRowMapper());
     }
 
+    // Henter en attraktion baseret på navnet
+    public Attraction getAttractionByName(String name) {
+        String sql = "SELECT * FROM Attraction WHERE Name = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{name}, new AttractionRowMapper());
+    }
+
     // Tilføjer en ny attraktion
     public int addAttraction(Attraction attraction) {
         String sql = "INSERT INTO Attraction (Name, City_ID, Description) VALUES (?, ?, ?)";

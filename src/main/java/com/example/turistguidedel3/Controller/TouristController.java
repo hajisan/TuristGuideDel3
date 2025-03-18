@@ -60,7 +60,7 @@ public class TouristController {
     @GetMapping("/attractions/add")
     public String addAttraction(Model model) {
         String name = "Tivoli"; // Navnet på attraktionen
-        model.addAttribute("attraction", new TouristAttraction(name, "Forlystelsespark midt i København centrum")); // Opretter en tom attraktion
+        model.addAttribute("attraction", new Attraction(name, "Forlystelsespark midt i København centrum")); // Opretter en tom attraktion
         model.addAttribute("tags", Tag.values()); // Henter tags-værdier fra Tags-enum
         return "newAttraction"; // Returnerer newAttraction.html
     }
@@ -68,9 +68,10 @@ public class TouristController {
     // Metode til at opdatere en attraktion
     @PostMapping("/attractions/update")
     public String updateAttraction(
-            @RequestParam("name") String name, // Henter navnet på attraktionen fra formularen
-            @ModelAttribute TouristAttraction attraction) { // Binder formularens data til et TouristAttraction-objekt
-        touristService.updateTouristAttraction(name, attraction); // Opdaterer attraktionen i systemet
+            @RequestParam("name") int id, // Henter navnet på attraktionen fra formularen
+            @ModelAttribute Attraction attraction) { // Binder formularens data til et TouristAttraction-objekt
+        attraction.setId(id);
+        touristService.updateTouristAttraction(attraction); // Opdaterer attraktionen i systemet
         return "redirect:/attractions"; // Omdirigerer brugeren tilbage til listen over attraktioner
     }
 
@@ -78,7 +79,7 @@ public class TouristController {
     @PostMapping("/attractions/delete/{name}")
     public String deleteAttraction(Model model, @PathVariable String name) { // @PathVariable henter attraktionens navn fra URL'en
         // Kalder service-laget for at slette attraktionen med det givne navn
-        TouristAttraction deletedAttraction = touristService.deleteTouristAttraction(name);
+        Attraction deletedAttraction = touristService.deleteTouristAttraction(name);
         model.addAttribute("attraction", deletedAttraction); // Lagrer den slettede attraktion i model (hvis nødvendig)
         return "redirect:/attractions"; // Omdirigerer brugeren tilbage til listen over attraktioner
     }
@@ -86,7 +87,7 @@ public class TouristController {
     // Metode til at redigere en eksisterende attraktion
     @GetMapping("/attractions/{name}/edit")
     public String editAttraction(Model model, @PathVariable String name) { // Finder attraktionen baseret på navnet
-        TouristAttraction touristAttraction = touristService.findTouristAttractionByName(name);
+        Attraction touristAttraction = touristService.findTouristAttractionByName(name);
         if (touristAttraction == null) { // Hvis attraktionen ikke findes, kastes en fejl
             throw new IllegalArgumentException("Ugyldigt attraktion");
         }
@@ -99,7 +100,7 @@ public class TouristController {
 
     // Metode til at gemme en ny attraktion
     @PostMapping("/attractions/save")
-    public String saveAttraction(@ModelAttribute TouristAttraction attraction,
+    public String saveAttraction(@ModelAttribute Attraction attraction,
                                  @RequestParam(required = false) List<Tag> tags) { // Henter valgte tags fra formularen
         if (tags != null) {
             attraction.setTag(tag); // Hvis tags er valgt, tildeles de til attraktionen

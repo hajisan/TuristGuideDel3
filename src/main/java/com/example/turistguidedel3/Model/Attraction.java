@@ -30,6 +30,10 @@ public class Attraction {
         return description;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     // toString-metode til at returenere attraktionens oplysninger
     @Override
     public String toString() {

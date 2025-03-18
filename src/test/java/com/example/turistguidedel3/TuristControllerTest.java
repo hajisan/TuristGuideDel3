@@ -1,6 +1,7 @@
 package com.example.turistguidedel3;
 
 import com.example.turistguidedel3.Controller.TouristController;
+import com.example.turistguidedel3.Model.Attraction;
 import com.example.turistguidedel3.Service.TouristService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,7 +44,7 @@ class TouristControllerTest {
     void testGetAttractionByName() throws Exception {
         // Arrange
         String name = "Tivoli";
-        TouristAttraction attraction = new TouristAttraction(name, "Forlystelsespark midt i København centrum");
+        Attraction attraction = new Attraction(1, name, City.getName(), "Forlystelsespark midt i København centrum");
         when(touristService.findTouristAttractionByName(name)).thenReturn(attraction);
 
         mockMvc.perform(get("/attractions/{name}", name))
