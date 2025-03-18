@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>About</title>
+        <link rel="stylesheet" th:href="@{/main.css}">
+    </head>
+    <body>
+    <header>
+        <h1 th:align="center">Om os</h1>
+    </header>
+
+        <div class="beskrivelse">
+            <table>
+                <h3>Rasmus</h3>
+                <h4>
+                    Rasmus studerer på KEA og går meget op i danske seværdigheder,
+                    derfor har han lavet hjemmesiden, der har tilformål at hjælpe dig med at finde dem,
+                    så du ikke selv skal bruge tid på det.
+                </h4>
+            </table>
+        </div>
+
+        <a th:href="@{/}">
+            <button class="button" type="button">Tilbage Til Forsiden</button>
+        </a>
+    </body>
+</html>

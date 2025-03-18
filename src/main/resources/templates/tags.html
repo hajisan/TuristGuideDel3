@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Tags</title>
+        <link rel="stylesheet" th:href="@{/main.css}">
+    </head>
+    <body>
+        <div class="beskrivelse">
+            <h1>Alle Tags</h1>
+
+            <!-- Liste af tags -->
+            <ul th:each="tag : ${tags}">
+                <li th:text="${tag.displayName}"></li>
+            </ul>
+        </div>
+
+        <a th:href="@{/attractions}">
+            <button class="button" type="button">Tilbage</button>
+        </a>
+    </body>
+</html>

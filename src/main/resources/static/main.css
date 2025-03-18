@@ -1,0 +1,168 @@
+/* General Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-rows: auto auto 1fr;
+    min-height: 100vh;
+    background-color: royalblue;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+.header {
+    background-color: dodgerblue;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+}
+
+.beskrivelse {
+    background-color: dodgerblue;
+    width: 50%;
+    height: auto;
+    margin: auto;
+    border-radius: 16px;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* Table */
+.table1 {
+    align-items: flex-end;
+    border: solid 2px dodgerblue;
+}
+
+/* Image */
+.ti-img {
+    height: 300px;
+    width: 500px;
+    border-radius: 9px;
+}
+
+/* Columns Layout */
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Footer */
+.footer {
+    background-color: royalblue;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+
+.footer table {
+    align-items: flex-end;
+    border: 2px solid dodgerblue;
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    margin: 20px auto; /* Centreret med lidt margin */
+    width: auto; /* Kun fyld baseret på indhold */
+    max-width: 100%; /* Fylder aldrig mere end 100% af containeren */
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Tabelhoved */
+th {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: bold;
+    white-space: nowrap; /* Gør, at teksten ikke brydes */
+}
+
+/* Tabelceller */
+td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #04AA6D; /* Sort tekst i resten af tabellen */
+    white-space: nowrap;
+}
+
+/* Sidste række uden kant */
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Hover-effekt */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.button {
+    background-color: dodgerblue; /* Green */
+    border: none;
+    color: white;
+    margin: auto;
+    padding: 10px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #0056b3;
+}
+
+.description {
+    max-height: 60px; /* Viser kun to linjer */
+    max-width: 400px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.description.expanded {
+    max-height: none; /* Udvider til fuld størrelse */
+}
+
+
+.read-more {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+    margin-top: 10px;
+}

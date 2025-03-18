@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/main.css}">
+    <title>Tourist Attraktioner</title>
+</head>
+
+    <body>
+        <h1>Turist Attraktioner</h1>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Beskrivelse</th>
+                        <th>By</th>
+                        <th>Opdater</th>
+                        <th>Slet</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+            <tbody>
+                <tr th:each="attraction : ${attractions}">
+                    <td th:text="${attraction.name}"></td>
+                    <td>
+                        <div th:id="'description-' + ${attraction.name}" class="description" th:text="${attraction.description}"></div>
+                    </td>
+                    <td th:text="${attraction.city}"></td>
+                    <td>
+                        <a class="button" th:href="@{/attractions/{name}/edit(name=${attraction.name})}">Opdater</a>
+                    </td>
+                    <td>
+                        <form th:action="@{/attractions/delete/{name}(name=${attraction.name})}" method="post">
+                            <button type="submit" class="button">Slet</button>
+                        </form>
+                    </td>
+                    <td><a class="button" th:href="@{/attractions/{name}/tags(name=${attraction.name})}">Tags</a></td>
+                </tr>
+            </tbody>
+            </table>
+            <a th:href="@{/attractions/add}">
+                <button class="button"> <strong> Tilføj attraktion </strong></button>
+            </a>
+        </div>
+            <a th:href="@{/}">
+                <button type="button" class="button"> <strong> Tilbage til forsiden </strong></button>
+            </a>
+    </body>
+</html>

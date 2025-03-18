@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turist Guide</title>
+  <link th:href="@{/main.css}" rel="stylesheet">
+
+</head>
+<body>
+  <header class="header">
+    <h1 th:align="center">Velkommen til Turist Guide</h1>
+  </header>
+
+    <div class="beskrivelse">
+      <h3>Beskrivelse</h3>
+      <h4>
+        Turist Guide er for dig, der ønsker at udforske Danmarks mange fantastiske seværdigheder – uanset om du er til spændende forlystelsesparker, fascinerende museer, storslået natur eller historiske slotte.
+        Med Turist Guide får du et samlet overblik over Danmarks mest populære attraktioner samt skjulte perler, der venter på at blive opdaget. Uanset om du planlægger en familieudflugt, en romantisk weekendtur eller en lærerig oplevelse, hjælper vi dig med at finde de bedste steder at besøge.
+        Lad dig inspirere, opdag nye oplevelser, og gør din rejse gennem Danmark endnu mere mindeværdig! 🚀🌍
+      </h4>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <a href="https://www.tivoli.dk">
+          <img class="ti-img" src="https://cdn.tivoli.dk/media/z5zfn5hy/hovedindgangen-tivoli-sommer-2022-14631671.jpg?height=675&width=1200&format=jpeg" alt="Tivoli">
+        </a>
+      </div>
+    <div class="column">
+      <div class="row">
+        <a href="https://www.legoland.dk">
+          <img class="ti-img" src="https://www.legoland.dk/media/rksjmvkc/148-legoland__k1a3129_final_1920x1080.jpg" alt="Legoland">
+        </a>
+      </div>
+    </div>
+      <div class="column">
+        <a class="ti-img" href="https://www.lalandia.dk">
+          <img class="ti-img" src="https://www.sembo.dk/media/11153356/Lalandia_930x465.jpg" alt="Lalandia">
+        </a>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="footer">
+        <a th:href="@{/about}">
+          <button type="button" class="button"> <strong> Om os </strong> </button>
+        </a>
+        ----- <strong> Ønsker du at kontakte os, så kan det gøres på telefon: 48484848 eller på mail Turistguide@mail.dk </strong> -----
+        <a th:href="@{/attractions}">
+          <button type="button" class="button"> <strong> Se alle attraktioner </strong> </button>
+        </a>
+      </div>
+    </footer>
+  </body>
+</html>

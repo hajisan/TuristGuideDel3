@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tilføj Træningscenter</title>
+        <link rel="stylesheet" th:href="@{/main.css}">
+    </head>
+    <body>
+
+        <h1>Tilføj ny attraktion</h1>
+        <div class="beskrivelse">
+            <form th:action="@{/attractions/save}" th:object="${attraction}" method="post">
+
+            <label for="name">Navn:</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required>
+            <br><br>
+
+            <label for="description">Beskrivelse:</label>
+                <input type="text" id="description" name="description" th:field="*{description}" required>
+            <br><br>
+
+            <label>Vælg Tags:</label>
+                <br>
+                <th:block th:each="tag : ${tags}">
+                <label>
+                    <input type="checkbox" th:name="tags" th:value="${tag}" th:text="${tag.displayName}">
+                </label>
+                </th:block>
+                <br><br>
+                <button type="submit">OK</button>
+            </form>
+        </div>
+        <a th:href="@{/attractions}" class="button">Annuller</a>
+    </body>
+</html>
