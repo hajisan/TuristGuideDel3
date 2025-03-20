@@ -24,15 +24,18 @@ public class TouristService {
         return touristRepository.getAllAttractions();
     }
 
+    // Henter en turistattraktion via attraktionens ID
     public Attraction getAttractionById(int id) {
         return touristRepository.getAttractionById(id);
     }
 
+    // Opdatere attraktionens tags
     public void updateAttractionTags(int attractionId, List<Tag> tags) {
         touristRepository.deleteAttractionTags(attractionId);
         touristRepository.addAttractionTags(attractionId, tags);
     }
 
+    // Henter tags via tag ID
     public List<Tag> getTagsByIds(List<Integer> tagIds) {
         return touristRepository.getTagsByIds(tagIds);
     }
@@ -43,8 +46,8 @@ public class TouristService {
     }
 
     // Tilføjer en ny attraktion
-    public void addAttraction(Attraction attraction) {
-        touristRepository.addAttraction(attraction);
+    public int addAttraction(Attraction attraction) {
+        return touristRepository.addAttraction(attraction);
     }
 
     // Opdaterer en attraktion
@@ -59,7 +62,6 @@ public class TouristService {
 
     // Henter alle tags
     public List<Tag> getTags() {
-        List<Tag> tags = touristRepository.getAllTags();
         return touristRepository.getAllTags();
     }
 

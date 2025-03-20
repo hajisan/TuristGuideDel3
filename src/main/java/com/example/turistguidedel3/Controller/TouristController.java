@@ -45,13 +45,8 @@ public class TouristController {
     }
 
     @PostMapping("/attractions/save")
-    public String saveAttraction(@ModelAttribute Attraction attraction,
-                                 @RequestParam(required = false) List<Tag> tags) {
-        if (tags != null) {
-            attraction.setTags(tags);
-        } else {
-            attraction.setTags(List.of());
-        }
+    public String saveAttraction(@ModelAttribute Attraction attraction) {
+        System.out.println("Modtager attraction: " + attraction);
         touristService.addAttraction(attraction);
         return "redirect:/attractions";
     }
