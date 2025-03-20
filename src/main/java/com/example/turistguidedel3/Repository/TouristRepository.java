@@ -3,6 +3,7 @@ package com.example.turistguidedel3.Repository;
 import com.example.turistguidedel3.Model.Attraction;
 import com.example.turistguidedel3.Model.City;
 import com.example.turistguidedel3.Model.Tag;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@ConditionalOnProperty(name = "spring.datasource.url", havingValue = "none", matchIfMissing = true)
 public class TouristRepository {
     private final JdbcTemplate jdbcTemplate;
 
