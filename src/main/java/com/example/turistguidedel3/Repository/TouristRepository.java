@@ -3,19 +3,49 @@ package com.example.turistguidedel3.Repository;
 import com.example.turistguidedel3.Model.Attraction;
 import com.example.turistguidedel3.Model.City;
 import com.example.turistguidedel3.Model.Tag;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-@ConditionalOnProperty(name = "spring.datasource.url", havingValue = "none", matchIfMissing = true)
 public class TouristRepository {
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    public List<Attraction> findAll() {
+        List<Attraction> attractions = new ArrayList<>();
+        String sql = "SELECT * FROM touristguide";
+
+        try  (Connection connection = DriverManager.getConnection(dbUrl, username, password)) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                City city = new City(resultSet.getInt("City_ID"), "");
+                Attraction attraction = new Attraction(
+                        resultSet.getInt("id"),
+                        resultSet.getString("Name"),
+                        city,
+                        resultSet.getString("Description"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return attractions;
+    }
+
     private final JdbcTemplate jdbcTemplate;
 
     public TouristRepository(JdbcTemplate jdbcTemplate) {
