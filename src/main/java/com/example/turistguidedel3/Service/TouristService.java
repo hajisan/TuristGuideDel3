@@ -1,7 +1,7 @@
 package com.example.turistguidedel3.Service;
 
-
 import com.example.turistguidedel3.Model.Attraction;
+import com.example.turistguidedel3.Model.City;
 import com.example.turistguidedel3.Model.Tag;
 import com.example.turistguidedel3.Repository.TouristRepository;
 import org.springframework.stereotype.Service;
@@ -14,44 +14,52 @@ public class TouristService {
 
     public TouristService(TouristRepository touristRepository) {
         this.touristRepository = touristRepository;
-    } // Konstruktør til at initialisere TouristRepository-objektet
+    }
 
+    // Henter alle turistattraktioner
     public List<Attraction> getAllTouristAttractions() {
         return touristRepository.getAllAttractions();
-    } // Henter alle turistattraktioner fra TouristRepository
+    }
 
-
+    // Henter en attraktion baseret på navn
     public Attraction findTouristAttractionByName(String name) {
         return touristRepository.getAttractionByName(name);
-    } // Henter en attraktion baseret på navnet fra TouristRepository
+    }
 
+    // Tilføjer en ny attraktion
     public void addAttraction(Attraction attraction) {
         touristRepository.addAttraction(attraction);
     }
-    // Tilføjer en ny attraktion til TouristRepository
 
+    // Opdaterer en attraktion
     public void updateTouristAttraction(Attraction updateTouristAttraction) {
         int updated = touristRepository.updateAttraction(updateTouristAttraction);
         if (updated == 0) {
             throw new IllegalArgumentException("Attraktionen med ID '" + updateTouristAttraction.getId() + "' blev ikke fundet.");
-        } // Opdaterer en eksisterende attraktion i TouristRepository
+        }
     }
 
-    public Attraction deleteTouristAttraction(int id) {
-        return touristRepository.deleteAttraction(id);
-    } // Sletter en attraktion fra TouristRepository baseret på navnet
+    // Sletter en attraktion
+    public void deleteTouristAttraction(int id) {
+        touristRepository.deleteAttraction(id);
+    }
 
+    // Henter alle tags
+    public List<Tag> getTags() {
+        return touristRepository.getAllTags();
+    }
+
+    // Henter tags for en specifik attraktion baseret på navn
     public List<Tag> getTags(String name) {
-        return touristRepository.getAllTags(name);
-         // Henter tags for en specifik attraktion baseret på navnet
+        Attraction attraction = touristRepository.getAttractionByName(name);
+        if (attraction != null) {
+            return attraction.getTags();
+        }
+        throw new IllegalArgumentException("Attraktionen med navn '" + name + "' blev ikke fundet.");
     }
 
-    public List<String> getCities() {
+    // Henter alle byer
+    public List<City> getCities() {
         return touristRepository.getAllCities();
     }
-    // Henter en liste over alle byer fra TouristRepository
-
 }
-
-
-

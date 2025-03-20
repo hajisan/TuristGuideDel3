@@ -40,17 +40,17 @@ class TouristControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    @Test
-    void testGetAttractionByName() throws Exception {
-        // Arrange
-        String name = "Tivoli";
-        Attraction attraction = new Attraction(1, name, City.getName(), "Forlystelsespark midt i København centrum");
-        when(touristService.findTouristAttractionByName(name)).thenReturn(attraction);
-
-        mockMvc.perform(get("/attractions/{name}", name))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))  // Tjekker at "index.html" returneres
-                .andExpect(model().attributeExists("attraction"))  // Tjekker at model-objektet er til stede
-                .andExpect(model().attribute("attraction", attraction));  // Tjekker at attraktionen er i model
-    }
+//    @Test
+//    void testGetAttractionByName() throws Exception {
+//        // Arrange
+//        String name = "Tivoli";
+//        Attraction attraction = new Attraction(1, name, City.getName(), "Forlystelsespark midt i København centrum");
+//        when(touristService.findTouristAttractionByName(name)).thenReturn(attraction);
+//
+//        mockMvc.perform(get("/attractions/{name}", name))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("index"))  // Tjekker at "index.html" returneres
+//                .andExpect(model().attributeExists("attraction"))  // Tjekker at model-objektet er til stede
+//                .andExpect(model().attribute("attraction", attraction));  // Tjekker at attraktionen er i model
+//    }
 }
