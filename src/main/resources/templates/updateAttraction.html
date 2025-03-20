@@ -3,33 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Opdater Attraktion </title>
+    <title>Opdater Attraktion</title>
     <link rel="stylesheet" th:href="@{/main.css}">
 </head>
 <body>
 <form class="beskrivelse" th:action="@{/attractions/update}" th:object="${attraction}" method="post">
-    <input th:field="*{name}" type="hidden">
 
-    <h2 th:text="'Opdater ' + ${name}"></h2>
+    <!-- Skjult ID (nødvendig for at kunne opdatere korrekt) -->
+    <input type="hidden" th:field="*{id}">
+
+    <!-- Skjult navn (kan evt. vises, men skal ikke kunne redigeres) -->
+    <input type="hidden" th:field="*{name}">
+
+    <h2 th:text="'Opdater ' + ${attraction.name}"></h2>
     <br>
 
+    <!-- Beskrivelse -->
     <label for="description">Beskrivelse</label>
     <input type="text" id="description" name="description" th:field="*{description}" required>
     <br><br>
 
+    <!-- By dropdown -->
     <label for="city">By</label>
-    <select id="city" name="city" th:field="*{city}">
-        <option th:each="city : ${cities}" th:text="${city}" th:value="${city}"></option>
+    <select id="city" name="city.id" th:field="*{city.id}">
+        <option th:each="city : ${cities}" th:text="${city.name}" th:value="${city.id}"></option>
     </select>
     <br><br>
 
+    <!-- Tags checkboxes -->
     <label>Tags</label><br>
     <div th:each="tag : ${tags}">
-        <input th:field="*{tags}" th:value="${tag}" type="checkbox">
-        <label th:text="${tag.displayName}"></label><br>
+        <input type="checkbox" name="tags" th:value="${tag.id}"
+               th:checked="${attraction.tags != null and attraction.tags.contains(tag)}">
+        <label th:text="${tag.name}"></label><br>
     </div>
-    <br>
 
+    <!-- Knapper -->
     <button type="submit" class="button">Opdater Attraktion</button>
     <a th:href="@{/attractions}" class="button">Annuller</a>
 </form>

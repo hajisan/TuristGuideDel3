@@ -4,6 +4,7 @@ import com.example.turistguidedel3.Model.Attraction;
 import com.example.turistguidedel3.Model.City;
 import com.example.turistguidedel3.Model.Tag;
 import com.example.turistguidedel3.Repository.TouristRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +12,29 @@ import java.util.List;
 @Service
 public class TouristService {
     private final TouristRepository touristRepository;
+    private final JdbcTemplate jdbcTemplate;
 
-    public TouristService(TouristRepository touristRepository) {
+    public TouristService(TouristRepository touristRepository, JdbcTemplate jdbcTemplate) {
         this.touristRepository = touristRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     // Henter alle turistattraktioner
     public List<Attraction> getAllTouristAttractions() {
         return touristRepository.getAllAttractions();
+    }
+
+    public Attraction getAttractionById(int id) {
+        return touristRepository.getAttractionById(id);
+    }
+
+    public void updateAttractionTags(int attractionId, List<Tag> tags) {
+        touristRepository.deleteAttractionTags(attractionId);
+        touristRepository.addAttractionTags(attractionId, tags);
+    }
+
+    public List<Tag> getTagsByIds(List<Integer> tagIds) {
+        return touristRepository.getTagsByIds(tagIds);
     }
 
     // Henter en attraktion baseret på navn
@@ -32,11 +48,8 @@ public class TouristService {
     }
 
     // Opdaterer en attraktion
-    public void updateTouristAttraction(Attraction updateTouristAttraction) {
-        int updated = touristRepository.updateAttraction(updateTouristAttraction);
-        if (updated == 0) {
-            throw new IllegalArgumentException("Attraktionen med ID '" + updateTouristAttraction.getId() + "' blev ikke fundet.");
-        }
+    public void updateAttraction(Attraction attraction) {
+      touristRepository.updateAttraction(attraction);
     }
 
     // Sletter en attraktion
@@ -46,6 +59,7 @@ public class TouristService {
 
     // Henter alle tags
     public List<Tag> getTags() {
+        List<Tag> tags = touristRepository.getAllTags();
         return touristRepository.getAllTags();
     }
 

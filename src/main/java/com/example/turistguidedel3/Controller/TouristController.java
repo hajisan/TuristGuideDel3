@@ -68,12 +68,68 @@ public class TouristController {
         return "updateAttraction";
     }
 
+    @GetMapping("/attractions/update/{id}")
+    public String showUpdateForm(@PathVariable int id, Model model) {
+        Attraction attraction = touristService.getAttractionById(id);
+        List<City> cities = touristService.getCities();
+        List<Tag> tags = touristService.getTags();
+
+        model.addAttribute("attraction", attraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "updateAttraction";
+    }
+
     @PostMapping("/attractions/update")
-    public String updateAttraction(@RequestParam("id") int id, @ModelAttribute Attraction attraction) {
-        attraction.setId(id);
-        touristService.updateTouristAttraction(attraction);
+    public String updateAttraction(@ModelAttribute Attraction attraction,
+                                   @RequestParam(value = "tags", required = false) List<Integer> tagIds) {
+        System.out.println("===== DEBUGGING DATA =====");
+        System.out.println("Modtager attraction: " + attraction);
+        System.out.println("Modtager tags fra formular: " + tagIds);
+
+        if (tagIds == null) {
+            System.out.println("Ingen tags valgt!");
+        } else {
+            // Konverter liste af IDs til en liste af faktiske Tag-objekter
+            List<Tag> selectedTags = tagIds.stream()
+                    .map(id -> new Tag(id, null)) // Brug null for navnet, da vi kun har ID'et
+                    .toList();
+
+            attraction.setTags(selectedTags);
+        }
+
+        // Kald service til at opdatere attraktionen
+        touristService.updateAttraction(attraction);
+
         return "redirect:/attractions";
     }
+
+//    @PostMapping("/attractions/update")
+//    public String updateAttraction(@ModelAttribute Attraction attraction,
+//                                   @RequestParam(value = "tags", required = false) List<Integer> tagIds) {
+//        System.out.println("Modtager attraction: " + attraction);
+//        System.out.println("Modtager tags: " + tagIds);
+//
+//        // Opdater attraktionens oplysninger
+//        touristService.updateAttraction(attraction);
+//
+//        // Opdater tags, hvis de er valgt
+//        if (tagIds != null) {
+//            List<Tag> tags = touristService.getTagsByIds(tagIds); // Hent Tag-objekter fra ID'er
+//            attraction.setTags(tags);
+//            touristService.updateAttractionTags(attraction.getId(), tags);
+//        }
+//
+//        return "redirect:/attractions";
+//    }
+
+//    @PostMapping("/attractions/update")
+//    public String updateAttraction(@ModelAttribute Attraction attraction) {
+//        System.out.println("Modtager attraction: " + attraction);
+//        touristService.updateAttraction(attraction);
+//        return "redirect:/attractions";
+//    }
 
     @PostMapping("/attractions/delete/{id}")
     public String deleteAttraction(@PathVariable int id) {

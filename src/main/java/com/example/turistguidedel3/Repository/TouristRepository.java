@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TouristRepository {
@@ -53,9 +54,33 @@ public class TouristRepository {
     }
 
     // Opdaterer en eksisterende attraktion
-    public int updateAttraction(Attraction attraction) {
-        String sql = "UPDATE Attraction SET Name = ?, City_ID = ?, Description = ? WHERE ID = ?";
-        return jdbcTemplate.update(sql, attraction.getName(), attraction.getCity().getId(), attraction.getDescription(), attraction.getId());
+    public void updateAttraction(Attraction attraction) {
+        String sql = "UPDATE Attraction SET Name = ?, Description = ?, City_ID = ? WHERE ID = ?";
+        jdbcTemplate.update(sql, attraction.getName(), attraction.getDescription(), attraction.getCity().getId(), attraction.getId());
+    }
+
+    public Attraction getAttractionById(int id) {
+        String sql = "SELECT * FROM Attraction WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new AttractionRowMapper(), id);
+    }
+
+    public void deleteAttractionTags(int attractionId) {
+        String sql = "DELETE FROM AttractionTag WHERE Attraction_ID = ?";
+        jdbcTemplate.update(sql, attractionId);
+    }
+
+    public void addAttractionTags(int attractionId, List<Tag> tags) {
+        String sql = "INSERT INTO AttractionTag (Attraction_ID, Tag_ID) VALUES (?, ?)";
+        for (Tag tag : tags) {
+            jdbcTemplate.update(sql, attractionId, tag.getId());
+        }
+    }
+
+    public List<Tag> getTagsByIds(List<Integer> tagIds) {
+        String sql = "SELECT * FROM Tag WHERE ID IN (" + tagIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(",")) + ")";
+        return jdbcTemplate.query(sql, new TagRowMapper());
     }
 
     // Sletter en attraktion og smider en fejl, hvis ID ikke findes
@@ -76,7 +101,7 @@ public class TouristRepository {
     }
 
     // RowMapper til Attraction (henter både City_ID og City_Name)
-    private static class AttractionRowMapper implements RowMapper<Attraction> {
+    public static class AttractionRowMapper implements RowMapper<Attraction> {
         @Override
         public Attraction mapRow(ResultSet rs, int rowNum) throws SQLException {
             City city = new City(rs.getInt("City_ID"), rs.getString("City_Name"));

@@ -1,56 +1,12 @@
--- Opretter databasen, hvis den ikke allerede findes
-CREATE DATABASE IF NOT EXISTS touristguide;
 USE touristguide;
-
--- Database for turistattraktioner
-
--- Opretter de nødvendige tabeller til at gemme data om byer, attraktioner og tags
-
--- Tabelstruktur for 'City', som gemmer information om byer
-CREATE TABLE City(
-	ID INT NOT NULL AUTO_INCREMENT, -- Unikt ID for hver by, autoincrement starter fra 100
-	Name VARCHAR(100) UNIQUE, -- Byens navn, skal være unikt
-    PRIMARY KEY (ID) -- Definerer ID som primærnøgle
-) AUTO_INCREMENT = 100;
 
 -- Indsæt data i City tabel
 INSERT IGNORE INTO City (Name) VALUES
-('København'), 
-('Aarhus'), 
-('Odense'), 
-('Fredericia'), 
-('Ballerup'), 
-('Viborg'), 
-('Køge'), 
-('Holstebro'), 
-('Aalborg'), 
-('Esbjerg'), 
-('Hørsholm'), 
-('Helsingør'), 
-('Silkeborg'), 
-('Næstved'), 
-('Randers'), 
-('Kolding'), 
-('Horsens'), 
-('Vejle'), 
-('Roskilde'), 
-('Herning'),
-('Billund'),
-('Ribe'),
-('Nimtofte'),
-('Blokhus'),
-('Kværndrup'),
-('Møn');
-
--- Tabelstruktur for 'Attraction', som gemmer information om turistattraktioner
-CREATE TABLE Attraction(
-	ID INT NOT NULL AUTO_INCREMENT, -- Unikt ID for hver attraktion, autoincrement starter fra 1000
-    Name VARCHAR(100) UNIQUE, -- Attraktionens navn, skal være unikt
-    City_ID INT NOT NULL, -- Refererer til ID på den by, hvor attraktionen er placeret
-    Description TEXT, -- Beskrivelse af attraktionen, tillader længere tekst
-    PRIMARY KEY (ID), -- Definerer ID som primærnøgle
-    FOREIGN KEY (City_ID) REFERENCES City(ID) -- Opretter en relation til City-tabellen
-) AUTO_INCREMENT = 1000;
+('København'), ('Aarhus'), ('Odense'), ('Fredericia'), ('Ballerup'), 
+('Viborg'), ('Køge'), ('Holstebro'), ('Aalborg'), ('Esbjerg'), 
+('Hørsholm'), ('Helsingør'), ('Silkeborg'), ('Næstved'), ('Randers'), 
+('Kolding'), ('Horsens'), ('Vejle'), ('Roskilde'), ('Herning'),
+('Billund'), ('Ribe'), ('Nimtofte'), ('Blokhus'), ('Kværndrup'), ('Møn');
 
 -- Indsæt data i Attraction tabel
 INSERT IGNORE INTO Attraction (Name, Description, City_ID) VALUES
@@ -70,30 +26,9 @@ INSERT IGNORE INTO Attraction (Name, Description, City_ID) VALUES
 ('Egeskov Slot', 'Et smukt renæssanceslot med store haver og en imponerende veteranbil- og motorcykelsamling.', (SELECT ID FROM City WHERE Name = 'Kværndrup')),
 ('Møns Klint', 'En af Danmarks mest spektakulære naturoplevelser med høje kridtklinter ud mod Østersøen.', (SELECT ID FROM City WHERE Name = 'Møn'));
 
--- Tabelstruktur for 'Tag', som gemmer information om tags/kategorier for attraktioner
-CREATE TABLE Tag(
-	ID INT NOT NULL AUTO_INCREMENT, -- Unikt ID for hvert tag, autoincrement starter fra 1
-	Name VARCHAR(50) NOT NULL UNIQUE, -- Tag-navnet, skal være unikt og ikke null
-	PRIMARY KEY (ID) -- Definerer ID som primærnøgle
-) AUTO_INCREMENT = 1;
-
--- Indsæt data i Tags tabel
+-- Indsæt data i Tag tabel
 INSERT IGNORE INTO Tag (Name) VALUES 
-('Kunst'),
-('Museum'),
-('Handikapvenligt'),
-('Børnevenligt'),
-('Natur'),
-('Gratis');
-
--- Tabelstruktur for 'Attraction_Tag', som håndterer mange-til-mange-relationen mellem Attraction og Tag
-CREATE TABLE Attraction_Tag( 
-	Tag_ID INT NOT NULL, -- ID for tagget, som kobles til en attraktion
-	Attraction_ID INT NOT NULL, -- ID for attraktionen, som kobles til et tag
-	PRIMARY KEY (Tag_ID, Attraction_ID), -- Primærnøgle består af begge ID'er, så samme par ikke kan opstå flere gange
-	FOREIGN KEY (Tag_ID) REFERENCES Tag(ID) ON DELETE CASCADE, -- Hvis et tag slettes, fjernes også dets koblinger til attraktioner
-	FOREIGN KEY (Attraction_ID) REFERENCES Attraction(ID) ON DELETE CASCADE -- Hvis en attraktion slettes, fjernes også dens koblinger til tags
-);
+('Kunst'), ('Museum'), ('Handikapvenligt'), ('Børnevenligt'), ('Natur'), ('Gratis');
 
 -- Indsæt relationer mellem attraktioner og tags
 INSERT INTO Attraction_Tag (Tag_ID, Attraction_ID)

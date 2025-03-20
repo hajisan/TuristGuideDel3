@@ -1,8 +1,8 @@
 package com.example.turistguidedel3.Model;
 
 public class Tag {
-    private final int id;
-    private final String name;
+    private int id;
+    private String name;
 
     public Tag(int id, String name) {
         this.id = id;

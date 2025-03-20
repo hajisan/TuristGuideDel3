@@ -27,7 +27,7 @@
                     <td>
                         <div th:id="'description-' + ${attraction.name}" class="description" th:text="${attraction.description}"></div>
                     </td>
-                    <td th:text="${attraction.city}"></td>
+                    <td th:text="${attraction.city.name}"></td>
                     <td>
                         <a class="button" th:href="@{/attractions/{name}/edit(name=${attraction.name})}">Opdater</a>
                     </td>

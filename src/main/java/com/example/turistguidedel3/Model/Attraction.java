@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Attraction {
     private int id;
-    private final String name;
-    private final City city;
-    private final String description;
+    private String name;
+    private City city;
+    private String description;
     private List<Tag> tags;
 
     public Attraction(int id, String name, City city, String description) {
@@ -42,6 +42,10 @@ public class Attraction {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
